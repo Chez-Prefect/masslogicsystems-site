@@ -1,360 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mass Logic Systems</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mass Logic Systems</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0D0D0F;
+    --card: #111113;
+    --border: #1e1e22;
+    --cyan: #00D4E8;
+    --white: #f4f4f5;
+    --muted: #71717a;
+    --dim: #3f3f46;
+    --purple: #9944ff;
+  }
+  html { background: #0D0D0F; }
+  body { background: #0D0D0F; color: #f4f4f5; font-family: 'Inter', -apple-system, sans-serif; min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
 
-    :root {
-      --navy: #1B3A6B;
-      --gold: #C9A84C;
-      --gold-light: #E8C97A;
-      --bg: #080E1A;
-      --bg-card: #0E1825;
-      --border: #1B2D45;
-      --text: #E8EDF5;
-      --text-muted: #7A8FA8;
-    }
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--bg); z-index: 100;
+  }
+  .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .nav-logo span { color: var(--cyan); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--cyan); color: var(--bg); border: none;
+    padding: 8px 18px; border-radius: 6px; font-size: 12px;
+    font-weight: 700; letter-spacing: 0.08em; cursor: pointer;
+    text-transform: uppercase;
+  }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, sans-serif;
-      min-height: 100vh;
-      line-height: 1.6;
-    }
+  /* HERO */
+  .hero {
+    max-width: 860px; margin: 0 auto;
+    padding: 96px 48px 80px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--cyan); margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 56px); font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: normal; color: var(--cyan); }
+  .hero p {
+    font-size: 17px; color: var(--muted); line-height: 1.7;
+    max-width: 580px; margin: 0 auto 48px;
+  }
 
-    /* NAV */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 2rem;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(8,14,26,0.92);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      text-decoration: none;
-    }
-    .nav-logo-mark {
-      width: 32px;
-      height: 32px;
-    }
-    .nav-logo-text {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text);
-      line-height: 1.2;
-    }
-    .nav-contact {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      padding: 0.4rem 1rem;
-      border-radius: 6px;
-      transition: all 0.2s;
-    }
-    .nav-contact:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
+  /* THREE PATHS */
+  .paths {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; max-width: 960px; margin: 0 auto;
+    padding: 0 48px;
+  }
+  .path-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px 24px;
+    display: flex; flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .path-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+  .path-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--cyan); margin-bottom: 12px;
+  }
+  .path-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .path-card p { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+  .path-card .path-who {
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--dim); letter-spacing: 0.05em;
+    text-transform: uppercase; font-weight: 600;
+  }
 
-    /* HERO */
-    .hero {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 6rem 2rem 4rem;
-      text-align: center;
-    }
-    .hero-eyebrow {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid var(--gold);
-      padding: 0.3rem 0.9rem;
-      border-radius: 99px;
-      margin-bottom: 2rem;
-      opacity: 0.85;
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-    .hero h1 span {
-      background: linear-gradient(90deg, var(--gold), var(--gold-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 560px;
-      margin: 0 auto 2.5rem;
-    }
-    .hero-cta {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--navy), #2A5298);
-      border: 1px solid #2A5298;
-      color: var(--text);
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 0.75rem 2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .hero-cta:hover {
-      border-color: var(--gold);
-      box-shadow: 0 0 20px rgba(201,168,76,0.15);
-    }
+  /* DIVIDER */
+  .divider {
+    max-width: 960px; margin: 80px auto 0;
+    padding: 0 48px;
+    border-top: 1px solid var(--border);
+  }
 
-    /* THESIS */
-    .thesis {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .thesis-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-    .thesis p {
-      font-size: 1rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      max-width: 640px;
-    }
-    .thesis p strong {
-      color: var(--text);
-    }
+  /* THESIS */
+  .thesis {
+    max-width: 960px; margin: 0 auto;
+    padding: 80px 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .thesis-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--cyan); margin-bottom: 16px;
+  }
+  .thesis h2 { font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 20px; }
+  .thesis p { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 14px; }
+  .thesis-stats { display: flex; flex-direction: column; gap: 24px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px;
+  }
+  .stat-card .stat-num {
+    font-size: 32px; font-weight: 800; color: var(--cyan);
+    letter-spacing: -0.02em; margin-bottom: 6px;
+  }
+  .stat-card .stat-label { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-    /* PRODUCT */
-    .product {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .product-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-    .product-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 2rem;
-    }
-    .product-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-    .product-badge {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      background: rgba(201,168,76,0.12);
-      color: var(--gold);
-      border: 1px solid rgba(201,168,76,0.3);
-      padding: 0.2rem 0.65rem;
-      border-radius: 99px;
-    }
-    .product-card h2 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-    .product-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
-    .product-pillars {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 0.75rem;
-    }
-    .pillar {
-      background: rgba(27,58,107,0.2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-    }
-    .pillar-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-    .pillar-desc {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
+  /* FEATURE */
+  .feature {
+    max-width: 960px; margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+  .feature-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; margin-bottom: 40px;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .feature-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--cyan); margin-bottom: 10px;
+  }
+  .feature-label.purple { color: var(--purple); }
+  .feature-header h2 { font-size: 28px; font-weight: 700; }
+  .feature-header p { font-size: 15px; color: var(--muted); margin-top: 8px; max-width: 440px; line-height: 1.6; }
+  .demo-btn {
+    background: transparent; border: 1px solid var(--cyan);
+    color: var(--cyan); padding: 10px 22px; border-radius: 7px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    letter-spacing: 0.06em; white-space: nowrap; align-self: flex-start;
+    margin-top: 24px; display: inline-block;
+  }
+  .demo-btn.purple {
+    border-color: var(--purple); color: var(--purple);
+  }
+  .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .feature-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px;
+  }
+  .feature-item.purple-border { border-color: #9944ff33; }
+  .feature-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .feature-item p { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-    /* CONTACT */
-    .contact {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 3rem 2rem 5rem;
-      border-top: 1px solid var(--border);
-    }
-    .contact-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-    .contact h2 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-    .contact p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-      max-width: 520px;
-    }
-    .contact-email {
-      display: inline-block;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--gold);
-      text-decoration: none;
-      border: 1px solid rgba(201,168,76,0.3);
-      padding: 0.65rem 1.5rem;
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-    .contact-email:hover {
-      background: rgba(201,168,76,0.08);
-      border-color: var(--gold);
-    }
+  /* DIANE DEMO */
+  .diane-demo {
+    max-width: 960px; margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+  .diane-demo-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--purple); margin-bottom: 16px;
+  }
+  .diane-demo h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .diane-demo p { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+  .diane-frame {
+    border: 1px solid #9944ff44;
+    border-radius: 12px; overflow: hidden;
+    height: 600px;
+  }
+  .diane-frame iframe {
+    width: 100%; height: 100%; border: none;
+  }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-  </style>
+  /* CTA */
+  .cta-section {
+    background: var(--card); border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 48px; text-align: center;
+  }
+  .cta-section h2 { font-size: 30px; font-weight: 700; margin-bottom: 16px; }
+  .cta-section p { font-size: 16px; color: var(--muted); margin-bottom: 36px; }
+  .cta-btn {
+    background: var(--cyan); color: var(--bg); border: none;
+    padding: 14px 32px; border-radius: 8px; font-size: 14px;
+    font-weight: 700; cursor: pointer; letter-spacing: 0.06em;
+    text-transform: uppercase; display: inline-block;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 32px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  footer .footer-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  footer .footer-logo span { color: var(--cyan); }
+  footer p { font-size: 12px; color: var(--dim); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 64px 24px 48px; }
+    .paths { grid-template-columns: 1fr; padding: 0 24px; }
+    .thesis { grid-template-columns: 1fr; padding: 48px 24px; gap: 40px; }
+    .feature { padding: 0 24px 48px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .diane-demo { padding: 0 24px 48px; }
+    .diane-frame { height: 500px; }
+    .cta-section { padding: 48px 24px; }
+    footer { padding: 24px; }
+    .divider { padding: 0 24px; }
+  }
+</style>
 </head>
 <body>
 
-  <nav>
-    <a href="/" class="nav-logo">
-      <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="16" cy="16" r="15" stroke="#1B3A6B" stroke-width="1.5"/>
-        <circle cx="16" cy="8"  r="2.5" fill="#C9A84C"/>
-        <circle cx="16" cy="24" r="2.5" fill="#C9A84C"/>
-        <circle cx="8"  cy="16" r="2.5" fill="#1B3A6B" stroke="#C9A84C" stroke-width="1"/>
-        <circle cx="24" cy="16" r="2.5" fill="#1B3A6B" stroke="#C9A84C" stroke-width="1"/>
-        <circle cx="10" cy="10" r="2"   fill="#2A5298"/>
-        <circle cx="22" cy="10" r="2"   fill="#2A5298"/>
-        <circle cx="10" cy="22" r="2"   fill="#2A5298"/>
-        <circle cx="22" cy="22" r="2"   fill="#2A5298"/>
-        <line x1="16" y1="10.5" x2="16" y2="21.5" stroke="#1B3A6B" stroke-width="1"/>
-        <line x1="10.5" y1="16" x2="21.5" y2="16" stroke="#1B3A6B" stroke-width="1"/>
-        <line x1="11.8" y1="11.8" x2="20.2" y2="20.2" stroke="#C9A84C" stroke-width="0.75" opacity="0.5"/>
-        <line x1="20.2" y1="11.8" x2="11.8" y2="20.2" stroke="#C9A84C" stroke-width="0.75" opacity="0.5"/>
-      </svg>
-      <span class="nav-logo-text">Mass Logic<br>Systems</span>
-    </a>
-    <a href="mailto:hello@masslogicsystems.com" class="nav-contact">hello@masslogicsystems.com</a>
-  </nav>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Mass Logic <span>Systems</span></div>
+  <div class="nav-links">
+    <a href="#runrate">Runrate</a>
+    <a href="#diane">DIANE</a>
+    <a href="mailto:hello@masslogicsystems.com">Contact</a>
+    <a href="https://vantage-blue-chi.vercel.app" target="_blank"><button class="nav-cta">Runrate Demo</button></a>
+  </div>
+</nav>
 
-  <section class="hero">
-    <div class="hero-eyebrow">Governing Autonomous AI</div>
-    <h1>The infrastructure layer for<br><span>AI agent governance</span></h1>
-    <p class="hero-sub">AI agents are becoming autonomous economic actors. Mass Logic Systems builds the governance infrastructure to control what they do, what they spend, and whether it's worth it.</p>
-    <a href="mailto:hello@masslogicsystems.com" class="hero-cta">Get in touch →</a>
-  </section>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Mass Logic Systems</div>
+  <h1>AI changes <em>who gets to build.</em><br>At every scale.</h1>
+  <p>From individual ideas to enterprise infrastructure. Mass Logic Systems builds tools and pathways that put AI to work for anyone willing to use it.</p>
 
-  <section class="thesis">
-    <div class="thesis-label">Our Thesis</div>
-    <p>AI agents will transact, spend, and make financial decisions on behalf of organizations at scale. The infrastructure to govern that activity does not exist in mature form yet.</p>
-    <p><strong>Mass Logic Systems is building it.</strong> Rules-based reasoning applied at scale — governing autonomous systems the same way financial infrastructure governs transactions.</p>
-    <p>The currency is a label. The governance layer is what matters.</p>
-  </section>
-
-  <section class="product">
-    <div class="product-label">First Product</div>
-    <div class="product-card">
-      <div class="product-card-header">
-        <h2>Vantage · Runrate</h2>
-        <span class="product-badge">In Development</span>
-      </div>
-      <p>Agent spend governance for teams running AI in production. Real-time policy enforcement, full decision transparency, budget controls, and ROI tracking — in one platform.</p>
-      <div class="product-pillars">
-        <div class="pillar">
-          <div class="pillar-title">Policy Engine</div>
-          <div class="pillar-desc">Every transaction evaluated and stamped in real time. Allow, warn, throttle, or block — with a reason.</div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-title">Decision Transparency</div>
-          <div class="pillar-desc">Full audit trail. Per-transaction explanations. Every outcome has a reason on record.</div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-title">Budget Enforcement</div>
-          <div class="pillar-desc">Daily and monthly spend limits per agent. Alerts fire before budgets are blown.</div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-title">ROI Layer</div>
-          <div class="pillar-desc">Every dollar compared to human equivalent cost. A defensible value number, always available.</div>
-        </div>
-      </div>
+  <div class="paths">
+    <div class="path-card">
+      <div class="path-tag">Enterprise</div>
+      <h3>Runrate</h3>
+      <p>AI agent governance for teams running agents in production. Policy enforcement, spend control, and full decision transparency.</p>
+      <div class="path-who">For engineering and finance teams</div>
     </div>
-  </section>
+    <div class="path-card">
+      <div class="path-tag">Autonomous Operating System</div>
+      <h3>DIANE</h3>
+      <p>Give it a goal. It builds the business to pursue it. Spawns agents, governs spend, accumulates intelligence, and identifies opportunities you did not ask it to find.</p>
+      <div class="path-who">For founders and operators</div>
+    </div>
+    <div class="path-card">
+      <div class="path-tag">Individuals</div>
+      <h3>MLS Access</h3>
+      <p>You have an idea. We help you build it. Anyone with a seed of an idea can use AI tools to bring it to life, regardless of background or budget.</p>
+      <div class="path-who">For anyone with an idea</div>
+    </div>
+  </div>
+</section>
 
-  <section class="contact">
-    <div class="contact-label">Early Access</div>
-    <h2>Running agents in production?</h2>
-    <p>We are working directly with a small number of teams to make sure we are solving the right problem in the right way. If you are feeling this pain, we want to talk to you.</p>
-    <a href="mailto:hello@masslogicsystems.com" class="contact-email">hello@masslogicsystems.com</a>
-  </section>
+<div class="divider"></div>
 
-  <footer>
-    © 2026 Mass Logic Systems · masslogicsystems.com · Confidential
-  </footer>
+<!-- THESIS -->
+<section class="thesis">
+  <div>
+    <div class="thesis-label">Our Thesis</div>
+    <h2>AI infrastructure for every scale of ambition.</h2>
+    <p>AI agents are becoming autonomous economic actors. The infrastructure to govern that activity does not exist in mature form yet. Mass Logic Systems is building it.</p>
+    <p>And AI is the most significant equalizer in a generation. Most people do not know how to use it to build real value for themselves. Mass Logic Systems believes both things and builds for both.</p>
+  </div>
+  <div class="thesis-stats">
+    <div class="stat-card">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Products serving enterprise teams and founders with the same core belief — autonomous AI needs governance and intelligence in equal measure.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Weekend to go from idea to company name, domain, landing page, and working product. Built alone. No network. No capital.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Gatekeepers between you and what you can build with the right tools and the right guidance.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RUNRATE -->
+<section class="feature" id="runrate" style="padding-top: 80px;">
+  <div class="feature-header">
+    <div>
+      <div class="feature-label">Product One</div>
+      <h2>Runrate</h2>
+      <p>Agent spend governance for teams running AI in production. Real-time policy enforcement, full decision transparency, budget controls, and ROI tracking in one platform.</p>
+      <a href="https://vantage-blue-chi.vercel.app" target="_blank"><button class="demo-btn">VIEW LIVE DEMO →</button></a>
+    </div>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-item">
+      <h4>Policy Engine</h4>
+      <p>Every transaction evaluated in real time. Allow, warn, throttle, or block with a plain language reason on record.</p>
+    </div>
+    <div class="feature-item">
+      <h4>Decision Transparency</h4>
+      <p>Full audit trail. Per-transaction explanations. Every outcome has a reason. Every decision is defensible.</p>
+    </div>
+    <div class="feature-item">
+      <h4>Budget Enforcement</h4>
+      <p>Daily and monthly spend limits per agent. Alerts fire before budgets are blown. No surprises at the end of the month.</p>
+    </div>
+    <div class="feature-item">
+      <h4>ROI Layer</h4>
+      <p>Every dollar compared to human equivalent cost. A defensible value number, always available for every agent in your fleet.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DIANE -->
+<section class="feature" id="diane" style="padding-top: 80px;">
+  <div class="feature-header">
+    <div>
+      <div class="feature-label purple">Product Two</div>
+      <h2>DIANE</h2>
+      <p>Drive Ideas Automatically Into New Experiences. Give DIANE a goal and it builds the right business structure to pursue it. Agents spawn, execute, and report. The Sovereign Mind invents without constraints.</p>
+      <a href="https://mls-diane-production.up.railway.app" target="_blank"><button class="demo-btn purple">OPEN DIANE →</button></a>
+    </div>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-item purple-border">
+      <h4>Autonomous Execution</h4>
+      <p>CEO Agent designs the org. Specialized workers execute in parallel. CFO governs every dollar spent. All of it runs without you managing it.</p>
+    </div>
+    <div class="feature-item purple-border">
+      <h4>Sovereign Mind</h4>
+      <p>A second unconstrained intelligence runs alongside the operating business. No goal filter. No identity anchor. It finds what does not exist yet.</p>
+    </div>
+    <div class="feature-item purple-border">
+      <h4>Persistent Memory</h4>
+      <p>Every run builds on the last. The world model accumulates over time. The organism gets smarter the longer it operates.</p>
+    </div>
+    <div class="feature-item purple-border">
+      <h4>Runrate Governed</h4>
+      <p>Every agent call evaluated against policy before it executes. Full audit trail. HEC value receipt on every completed task.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIANE LIVE DEMO -->
+<section class="diane-demo">
+  <div class="diane-demo-label">Live Demo</div>
+  <h3>Try DIANE now</h3>
+  <p>Type a goal and watch the organism build toward it in real time. Agents spawn, execute, and report. The CFO tracks the value.</p>
+  <div class="diane-frame">
+    <iframe src="https://mls-diane-production.up.railway.app" title="DIANE — Mass Logic Systems"></iframe>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Running agents in production?</h2>
+  <p>We are working directly with a small number of teams to make sure we are solving the right problem the right way. If you are feeling this pain, we want to talk.</p>
+  <a href="mailto:hello@masslogicsystems.com"><button class="cta-btn">Get in Touch</button></a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Mass Logic <span>Systems</span></div>
+  <p>masslogicsystems.com · hello@masslogicsystems.com</p>
+  <p style="color: var(--dim);">© 2026 Mass Logic Systems</p>
+</footer>
 
 </body>
 </html>
